@@ -4,6 +4,7 @@ import os
 
 app = Flask(__name__)
 DATA_FILE = 'data.json'
+ENCRYPTED_DATA = "key_store"
 
 def load_data():
     if not os.path.exists(DATA_FILE):
@@ -14,6 +15,12 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
+
+@app.route('/encrypted_data', methods=['GET'])
+def get_encrypted_data():
+    with open(ENCRYPTED_DATA, 'r') as f:
+        encrypted_data = f.read()
+    return {'encrypted_data': encrypted_data}, 200
 
 @app.route('/get/<key>', methods=['GET'])
 def get_value(key):
