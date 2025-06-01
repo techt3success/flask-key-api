@@ -3,13 +3,16 @@ import base64
 
 
 app = Flask(__name__)
-DATA_FILE = 'flask-key-api/key_store'
+DATA_FILE = 'flask-key-api/key_store' # Path to the file where encrypted data will be stored
 
 
 @app.route('/get_encrypted_data', methods=['GET'])
 def get_encrypted_data():
-    with open(DATA_FILE, 'rb') as f:
-        encrypted_data = f.read()
+    try:
+        with open(DATA_FILE, 'rb') as f:
+            encrypted_data = f.read()
+    except FileNotFoundError:
+        return {'error': 'Data not found.'}, 404
     encoded_data = base64.b64encode(encrypted_data).decode()
     return {'encrypted_data': encoded_data}, 200
 
