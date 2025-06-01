@@ -1,26 +1,23 @@
-from flask import Flask, request, jsonify
-import json
-import os
-from cryptography.fernet import Fernet
+from flask import Flask, request
+import base64
 
 
 app = Flask(__name__)
-DATA_FILE = 'key_store'
+DATA_FILE = 'flask-key-api/key_store'
 
 
 @app.route('/get_encrypted_data', methods=['GET'])
 def get_encrypted_data():
     with open(DATA_FILE, 'rb') as f:
         encrypted_data = f.read()
-    return {'encrypted_data': encrypted_data}, 200
-
+    encoded_data = base64.b64encode(encrypted_data).decode()
+    return {'encrypted_data': encoded_data}, 200
 
 @app.route('/save_enc_data', methods=['POST'])
 def save_enc_data():
     req = request.data
     if not req:
         return {'error': 'No data provided.'}, 400
-    
     # save the encrypted data to key_store file
     with open(DATA_FILE, 'wb') as f:
         f.write(req)
