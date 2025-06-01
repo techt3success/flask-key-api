@@ -3,7 +3,7 @@ import base64
 
 
 app = Flask(__name__)
-DATA_FILE = 'flask-key-api/key_store' # Path to the file where encrypted data will be stored
+DATA_FILE = 'key_store' # Path to the file where encrypted data will be stored
 
 
 @app.route('/get_encrypted_data', methods=['GET'])
