@@ -1,12 +1,6 @@
 from flask import Flask, request
 import base64
-import psycopg2
-from flask import current_app as app
 
-conn = psycopg2.connect(app.config['DATABASE_URL'])  # set from Render env vars
-cur = conn.cursor()
-cur.execute("INSERT INTO encrypted_store (key, value) VALUES (%s, %s)", (my_key, encrypted_data))
-conn.commit()
 
 app = Flask(__name__)
 DATA_FILE = 'key_store' # Path to the file where encrypted data will be stored
