@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import base64
 
 
@@ -29,7 +29,7 @@ def save_enc_data():
 
 @app.route('/')
 def index():
-    return {'status': 'API is running'}, 200
+    return jsonify({'status': 'API is running'})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
